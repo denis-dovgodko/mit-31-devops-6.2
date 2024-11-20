@@ -5,9 +5,15 @@ module "ecs" {
   cluster_name = "lab6-ecs"
   default_capacity_provider_use_fargate = false
   services = {
-    assign_public_ip = true
     lab6-service = {
-      desired_count              = 1
+      desired_count             = 1
+      create_iam_role           = false
+      create_task_exec_iam_role = false
+      create_task_exec_policy   = false
+      create_tasks_iam_role     = false
+      enable_autoscaling        = false
+      assign_public_ip          = true
+      network_mode    = "bridge"
       container_definitions = {
         java-app = {
           essential             = true
@@ -18,7 +24,7 @@ module "ecs" {
           memory    = 512
           port_mappings         = [
             {
-              name          = "port mapping"
+              name          = "port-mapping"
               containerPort = 8080
               hostPort      = 80
               protocol      = "tcp"
@@ -35,6 +41,7 @@ module "ecs" {
             to_port                  = 80
             protocol                 = "tcp"
             description              = "HTTP port"
+            cidr_blocks = ["0.0.0.0/0"]
           }
           ingress_ssh = {
             type                     = "ingress"
@@ -42,6 +49,7 @@ module "ecs" {
             to_port                  = 22
             protocol                 = "tcp"
             description              = "SSH port"
+            cidr_blocks = ["0.0.0.0/0"]
           }
           egress_all = {
             type        = "egress"
@@ -50,11 +58,9 @@ module "ecs" {
             protocol    = "-1"
             cidr_blocks = ["0.0.0.0/0"]
           }
-          
+
         }
-
-      }
-
+    }
   }
 
 }
