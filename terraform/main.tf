@@ -3,17 +3,16 @@ module "ecs" {
   version = "5.11.4"
 
   cluster_name = "lab6-ecs"
-  default_capacity_provider_use_fargate = false
   services = {
     lab6-service = {
-      desired_count             = 1
-      create_iam_role           = false
-      create_task_exec_iam_role = false
-      create_task_exec_policy   = false
-      create_tasks_iam_role     = false
-      enable_autoscaling        = false
-      assign_public_ip          = true
-      network_mode    = "bridge"
+      desired_count               = 1
+      create_iam_role             = false
+      create_task_exec_iam_role   = false
+      create_task_exec_policy     = false
+      create_tasks_iam_role       = false
+      enable_autoscaling          = false
+      create_cloudwatch_log_group = false
+      assign_public_ip            = true
       container_definitions = {
         java-app = {
           essential             = true
@@ -26,7 +25,7 @@ module "ecs" {
             {
               name          = "port-mapping"
               containerPort = 8080
-              hostPort      = 80
+              hostPort      = 8080
               protocol      = "tcp"
             }
           ]
@@ -37,8 +36,8 @@ module "ecs" {
       security_group_rules = {
           ingress_http = {
             type                     = "ingress"
-            from_port                = 80
-            to_port                  = 80
+            from_port                = 8080
+            to_port                  = 8080
             protocol                 = "tcp"
             description              = "HTTP port"
             cidr_blocks = ["0.0.0.0/0"]
