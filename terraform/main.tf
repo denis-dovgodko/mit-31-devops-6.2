@@ -15,8 +15,9 @@ module "ecs" {
           image                 = "denisdovgodko/javaapp:${var.image_tag}"
           stdin_open            = true
           tty                   = true
-          cpu       = 256
-          memory    = 512
+          interactive           = true
+          cpu                   = 256
+          memory                = 512
           readonly_root_filesystem = false
         }
       }
