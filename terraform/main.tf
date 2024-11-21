@@ -8,35 +8,20 @@ module "ecs" {
       desired_count               = 1
       enable_autoscaling          = false
       assign_public_ip            = true
+      enable_execute_command = true
       container_definitions = {
         java-app = {
           essential             = true
           image                 = "denisdovgodko/javaapp:${var.image_tag}"
-          interactive           = true
-          pseudo_terminal       = true
+          stdin_open            = true
+          tty                   = true
           cpu       = 256
           memory    = 512
-          port_mappings         = [
-            {
-              name          = "port-mapping"
-              containerPort = 8080
-              hostPort      = 8080
-              protocol      = "tcp"
-            }
-          ]
           readonly_root_filesystem = false
         }
       }
       subnet_ids = var.subnets
       security_group_rules = {
-          ingress_http = {
-            type                     = "ingress"
-            from_port                = 8080
-            to_port                  = 8080
-            protocol                 = "tcp"
-            description              = "HTTP port"
-            cidr_blocks = ["0.0.0.0/0"]
-          }
           ingress_ssh = {
             type                     = "ingress"
             from_port                = 22
