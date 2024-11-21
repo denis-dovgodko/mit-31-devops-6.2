@@ -6,13 +6,7 @@ module "ecs" {
   services = {
     lab6-service = {
       desired_count               = 1
-      create_iam_role             = false
-      create_task_exec_iam_role   = false
-      create_task_exec_policy     = false
-      create_tasks_iam_role       = false
       enable_autoscaling          = false
-      create_cloudwatch_log_group = false
-      enable_cloudwatch_logging   = false
       assign_public_ip            = true
       container_definitions = {
         java-app = {
