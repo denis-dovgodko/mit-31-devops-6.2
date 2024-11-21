@@ -9,6 +9,8 @@ module "ecs" {
       enable_autoscaling          = false
       assign_public_ip            = true
       enable_execute_command = true
+      cpu                   = 256
+      memory                = 512
       container_definitions = {
         java-app = {
           image                 = "denisdovgodko/javaapp:${var.image_tag}"
