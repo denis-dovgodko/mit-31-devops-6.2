@@ -11,11 +11,12 @@ module "ecs" {
       enable_execute_command = true
       container_definitions = {
         java-app = {
-          essential             = true
           image                 = "denisdovgodko/javaapp:${var.image_tag}"
+          essential             = true
           stdin_open            = true
           tty                   = true
           interactive           = true
+          pseudo_terminal       = true
           cpu                   = 256
           memory                = 512
           readonly_root_filesystem = false
